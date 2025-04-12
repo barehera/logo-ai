@@ -7,7 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useColorScheme } from "@/lib/useColorScheme";
 
 const buttonVariants = cva(
-  "group flex flex-row gap-2 items-center justify-center rounded-full overflow-hidden",
+  "group flex flex-row gap-2 items-center justify-center rounded-full overflow-hidden active:scale-95 transition-all",
   {
     variants: {
       variant: {
@@ -43,7 +43,7 @@ const buttonTextVariants = cva(
         secondary:
           "text-secondary-foreground group-active:text-secondary-foreground",
         ghost: "group-active:text-accent-foreground",
-        link: "text-sm text-primary group-active:opacity-50",
+        link: "text-sm text-primary ",
       },
       size: {
         default: "",

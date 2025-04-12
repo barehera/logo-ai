@@ -8,22 +8,30 @@ import { FlashList } from "@shopify/flash-list";
 import { logoStyles } from "@/constants/logoStyles";
 import { cn } from "@/lib/utils";
 import Stars from "@/assets/icons/Stars";
+import BackgroundGradient from "@/components/BackgroundGradient";
 
 export default function HomeScreen() {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1"
-    >
-      <SafeAreaView className="flex-1 p-6 gap-6">
-        <Header />
-        <View className="flex-1 gap-6">
-          <PromptInput />
-          <LogoStyleList />
-        </View>
-        <CreateButton />
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+    <View className="flex-1">
+      <BackgroundGradient />
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      >
+        <SafeAreaView className="flex-1 p-6">
+          <Header />
+          <View className="flex-1 gap-6">
+            <PromptInput />
+            <LogoStyleList />
+          </View>
+          <View className="mt-6">
+            <CreateButton />
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -68,6 +76,7 @@ const LogoStyleList = () => {
           data={logoStyles}
           horizontal
           renderItem={({ item }) => <LogoStyleItem item={item} />}
+          estimatedItemSize={94}
         />
       </View>
     </View>
