@@ -9,21 +9,21 @@ import { logoStyles } from "@/constants/logoStyles";
 import { cn } from "@/lib/utils";
 import Stars from "@/assets/icons/Stars";
 import BackgroundGradient from "@/components/BackgroundGradient";
+import StatusChip from "@/components/StatusChip";
 
 export default function HomeScreen() {
   return (
     <View className="flex-1">
       <BackgroundGradient />
 
-      <SafeAreaView className="flex-1 p-6">
-        <Header />
+      <SafeAreaView className="flex-1 p-6 gap-6">
         <View className="flex-1 gap-6">
+          <Header />
+          <StatusChip />
           <PromptInput />
           <LogoStyleList />
         </View>
-        <View className="mt-6">
-          <CreateButton />
-        </View>
+        <CreateButton />
       </SafeAreaView>
     </View>
   );
@@ -31,7 +31,7 @@ export default function HomeScreen() {
 
 const Header = () => {
   return (
-    <View className="mb-3">
+    <View className="mb-2">
       <Text className="text-center font-extrabold">AI Logo</Text>
     </View>
   );
@@ -42,7 +42,7 @@ const PromptInput = () => {
 
   return (
     <View>
-      <View className="mb-3 flex-row items-center justify-between ">
+      <View className="mb-3 flex-row items-center justify-between">
         <Text className="text-xl font-extrabold">Enter Your Prompt</Text>
         <Button variant="link">
           <Image source={require("@/assets/icons/dice.png")} className="w-4" />

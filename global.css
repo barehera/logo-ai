@@ -16,7 +16,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 240 6% 10%;
     --muted-foreground: 240 5% 47.3%;
-    --accent: 240 8% 26%;
+    --accent: 240 4% 10%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
@@ -38,12 +38,18 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 240 6% 10%;
     --muted-foreground: 240 5% 47.3%;
-    --accent: 240 8% 26%;
+    --accent: 240 4% 10%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 98%;
     --input: 260 10% 18%;
     --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer components {
+  .pressable {
+    @apply active:scale-95 transition-all;
   }
 }

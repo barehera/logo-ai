@@ -5,9 +5,10 @@ import { cn } from "@/lib/utils";
 import { TextClassContext } from "@/components/ui/text";
 import { LinearGradient } from "expo-linear-gradient";
 import { useColorScheme } from "@/lib/useColorScheme";
+import Gradient from "../Gradient";
 
 const buttonVariants = cva(
-  "group flex flex-row gap-2 items-center justify-center rounded-full overflow-hidden active:scale-95 transition-all",
+  "group flex flex-row gap-2 items-center justify-center rounded-full overflow-hidden pressable",
   {
     variants: {
       variant: {
@@ -16,7 +17,7 @@ const buttonVariants = cva(
         outline: "border border-input bg-background",
         secondary: "bg-secondary",
         ghost: "bg-accent",
-        link: "!px-0",
+        link: "!px-0 !py-0 native:!h-6",
       },
       size: {
         default: "h-10 px-4 py-2 native:h-14 native:px-5 native:py-3",
@@ -119,18 +120,3 @@ Button.displayName = "Button";
 
 export { Button, buttonTextVariants, buttonVariants };
 export type { ButtonProps };
-
-const Gradient = () => {
-  const { colors } = useColorScheme();
-
-  return (
-    <View className="absolute inset-0">
-      <LinearGradient
-        colors={[colors.primary, colors.secondary]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        className="h-full w-full"
-      />
-    </View>
-  );
-};
