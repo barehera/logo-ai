@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { Image, View, KeyboardAvoidingView, Platform } from "react-native";
+import { Image, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlashList } from "@shopify/flash-list";
 import { logoStyles } from "@/constants/logoStyles";
@@ -15,29 +15,23 @@ export default function HomeScreen() {
     <View className="flex-1">
       <BackgroundGradient />
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className="flex-1"
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
-      >
-        <SafeAreaView className="flex-1 p-6">
-          <Header />
-          <View className="flex-1 gap-6">
-            <PromptInput />
-            <LogoStyleList />
-          </View>
-          <View className="mt-6">
-            <CreateButton />
-          </View>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
+      <SafeAreaView className="flex-1 p-6">
+        <Header />
+        <View className="flex-1 gap-6">
+          <PromptInput />
+          <LogoStyleList />
+        </View>
+        <View className="mt-6">
+          <CreateButton />
+        </View>
+      </SafeAreaView>
     </View>
   );
 }
 
 const Header = () => {
   return (
-    <View>
+    <View className="mb-3">
       <Text className="text-center font-extrabold">AI Logo</Text>
     </View>
   );
@@ -71,8 +65,9 @@ const LogoStyleList = () => {
       <View className="mb-3 flex-row items-center justify-between ">
         <Text className="text-xl font-extrabold">Logo Styles</Text>
       </View>
-      <View className="">
+      <View>
         <FlashList
+          showsHorizontalScrollIndicator={false}
           data={logoStyles}
           horizontal
           renderItem={({ item }) => <LogoStyleItem item={item} />}

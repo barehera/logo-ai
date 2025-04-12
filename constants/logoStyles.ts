@@ -15,23 +15,8 @@ export const logoStyles = [
     image: require("@/assets/images/logo-styles/logo-style-2.png"),
   },
   {
-    label: "Monogram",
-    value: "monogram-1",
-    image: require("@/assets/images/logo-styles/logo-style-1.png"),
-  },
-  {
-    label: "Abstract",
-    value: "abstract-1",
-    image: require("@/assets/images/logo-styles/logo-style-2.png"),
-  },
-  {
-    label: "Monogram",
-    value: "monogram-2",
-    image: require("@/assets/images/logo-styles/logo-style-1.png"),
-  },
-  {
-    label: "Abstract",
-    value: "abstract-2",
-    image: require("@/assets/images/logo-styles/logo-style-2.png"),
+    label: "Mascot",
+    value: "mascot",
+    image: require("@/assets/images/logo-styles/logo-style-3.png"),
   },
 ];
