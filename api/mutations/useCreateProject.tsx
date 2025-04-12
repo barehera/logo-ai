@@ -6,8 +6,6 @@ import { useNewProjectStore } from "@/store/newProjectStore";
 const useCreateProject = () => {
   const setId = useNewProjectStore((state) => state.setId);
   const setError = useNewProjectStore((state) => state.setError);
-  const setPrompt = useNewProjectStore((state) => state.setPrompt);
-  const setStyle = useNewProjectStore((state) => state.setStyle);
 
   return useMutation({
     mutationFn: ({
@@ -17,10 +15,7 @@ const useCreateProject = () => {
       prompt: ProjectProps["prompt"];
       style: ProjectProps["style"];
     }) => createProject(prompt, style),
-    onMutate: () => {
-      setPrompt("");
-      setStyle(null);
-    },
+
     onError: (error) => {
       setError(error.message);
     },

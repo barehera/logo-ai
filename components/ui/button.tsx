@@ -44,7 +44,7 @@ const buttonTextVariants = cva(
         secondary:
           "text-secondary-foreground group-active:text-secondary-foreground",
         ghost: "group-active:text-accent-foreground",
-        link: "text-sm text-primary ",
+        link: "text-sm text-primary",
       },
       size: {
         default: "",

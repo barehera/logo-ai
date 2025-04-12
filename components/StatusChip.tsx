@@ -10,12 +10,14 @@ import { useEffect } from "react";
 import useCompleteProject from "@/api/mutations/useCompleteProject";
 import useIsProcessing from "@/hooks/useIsProcessing";
 import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
+import { router } from "expo-router";
 
 const StatusChip = () => {
   const id = useNewProjectStore((state) => state.id);
 
   const projectQuery = useGetProject(id);
   const isProcessing = useIsProcessing(id);
+  const isReady = !!id && !isProcessing && !projectQuery.isLoading;
 
   if (projectQuery.isError) {
     return <ErrorChip refetch={projectQuery.refetch} />;
@@ -25,7 +27,7 @@ const StatusChip = () => {
     return <ETAChip eta={projectQuery.data?.eta} />;
   }
 
-  if (!!id && !isProcessing && !projectQuery.isLoading) {
+  if (isReady) {
     return <DesignReadyChip />;
   }
 
@@ -63,7 +65,7 @@ const DesignReadyChip = () => {
   const id = useNewProjectStore((state) => state.id);
 
   const handleOpenDesign = () => {
-    console.log("open design", id);
+    router.push(`/modals/outputModal`);
   };
 
   return (
