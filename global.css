@@ -50,6 +50,6 @@
 
 @layer components {
   .pressable {
-    @apply active:scale-95 transition-all;
+    @apply active:scale-95 transition-all duration-300;
   }
 }

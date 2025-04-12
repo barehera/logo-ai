@@ -16,9 +16,10 @@ import { randomPrompts } from "@/constants/randomPrompts";
 import Animated, {
   FadeIn,
   FadeOut,
-  SequencedTransition,
+  LinearTransition,
 } from "react-native-reanimated";
 import useIsProcessing from "@/hooks/useIsProcessing";
+import { useCallback, useMemo } from "react";
 
 export default function HomeScreen() {
   return (
@@ -30,7 +31,7 @@ export default function HomeScreen() {
           className="flex-1 gap-6"
           entering={FadeIn}
           exiting={FadeOut}
-          layout={SequencedTransition}
+          layout={LinearTransition}
         >
           <Header />
           <StatusChip />
@@ -55,6 +56,7 @@ const PromptInput = () => {
   const prompt = useNewProjectStore((state) => state.prompt);
   const setPrompt = useNewProjectStore((state) => state.setPrompt);
   const id = useNewProjectStore((state) => state.id);
+
   const isProcessing = useIsProcessing(id);
 
   return (
@@ -75,13 +77,19 @@ const PromptInput = () => {
 };
 
 const SurpriseMeButton = () => {
+  const prompt = useNewProjectStore((state) => state.prompt);
   const setPrompt = useNewProjectStore((state) => state.setPrompt);
   const id = useNewProjectStore((state) => state.id);
   const isProcessing = useIsProcessing(id);
 
-  const getRandomPrompt = () => {
-    return randomPrompts[Math.floor(Math.random() * randomPrompts.length)];
-  };
+  const getRandomPrompt = useCallback(() => {
+    // Filter out the current prompt to avoid getting the same one
+    const availablePrompts = randomPrompts.filter((p) => p !== prompt);
+
+    return availablePrompts[
+      Math.floor(Math.random() * availablePrompts.length)
+    ];
+  }, [prompt]);
 
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt();
@@ -162,10 +170,36 @@ const CreateButton = () => {
   const id = useNewProjectStore((state) => state.id);
 
   const isProcessing = useIsProcessing(id);
-
   const createProjectMutation = useCreateProject();
 
+  const hasAlreadyCreated = useMemo(() => {
+    return !!id && !isProcessing;
+  }, [id, isProcessing]);
+
   const handleCreateProject = async () => {
+    if (hasAlreadyCreated) {
+      return Alert.alert(
+        "Start a New Logo?",
+        "You already have a completed logo. Creating a new one will replace your current design. Would you like to continue?",
+        [
+          {
+            text: "Keep Current Logo",
+            style: "cancel",
+          },
+          {
+            text: "Create New Logo",
+            onPress: async () => {
+              await createNewProject();
+            },
+          },
+        ]
+      );
+    }
+
+    await createNewProject();
+  };
+
+  const createNewProject = async () => {
     const result = projectPromptSchema.safeParse(prompt);
 
     if (!result.success) {
@@ -182,7 +216,7 @@ const CreateButton = () => {
       isLoading={createProjectMutation.isPending}
       disabled={isProcessing}
     >
-      <Text>Create</Text>
+      <Text>{hasAlreadyCreated ? "Create New" : "Create"}</Text>
       <Stars />
     </Button>
   );

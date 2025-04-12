@@ -1,7 +1,7 @@
 import { ProjectProps } from "@/types/project";
 import { useQuery } from "@tanstack/react-query";
 import { getProject } from "../project";
-import { queryKeys } from "../keys";
+import { queryKeys } from "../queryKeys";
 
 const useGetProject = (id: ProjectProps["id"]) => {
   return useQuery({

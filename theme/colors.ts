@@ -1,3 +1,15 @@
+/**
+ * Color definitions for light and dark themes
+ *
+ * This module provides a consistent color palette for the application following
+ * the design system principles. Colors are defined using HSL values.
+ *
+ * The structure follows react-native-reusables theming approach for React Native applications,
+ * making it compatible with their component library.
+ *
+ * NOTE: When changing colors here, don't forget to update corresponding values in global.css
+ * to maintain consistency across the application.
+ */
 export const COLORS = {
   // Light theme colors
   light: {

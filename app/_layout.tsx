@@ -22,7 +22,11 @@ export default function RootLayout() {
             <Stack.Screen name="+not-found" />
             <Stack.Screen
               name="modals/outputModal"
-              options={{ presentation: "modal", headerShown: false }}
+              options={{
+                presentation: "modal",
+                headerShown: false,
+                animation: "fade_from_bottom",
+              }}
             />
           </Stack>
         </FontProvider>

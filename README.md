@@ -1,50 +1,28 @@
-# Welcome to your Expo app 👋
+# Project Overview
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Technology Stack
 
-## Get started
+This project leverages the following technologies:
 
-1. Install dependencies
+- **TanStack Query** - For efficient asynchronous state management
+- **Zustand** - For lightweight global state management
+- **React Native Reusables** - For consistent UI components and theming
 
-   ```bash
-   npm install
-   ```
+## Project Creation Flow
 
-2. Start the app
+1. User initiates project creation
+   - System validates that the prompt is valid
+2. System creates a project in Firestore
+   - System generates a random duration between 30-60 seconds
+   - This duration is assigned to the new project and saved to Firestore
+3. UI updates ETA Chip showing the loading indicator and the ETA
+4. ETA countdown reaches zero
+5. Mock project completion process executes
+   - System updates the project's ETA to 0 in Firestore
+6. "Your Design is Ready" chip is displayed
+7. User can now view the project by pressing the "Your Design is Ready" chip
 
-   ```bash
-    npx expo start
-   ```
+## Development Notes
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- I did not implement react-hook-form because the project is small and the form is simple.
+- I did not implemented any backend expect simple firestore database.

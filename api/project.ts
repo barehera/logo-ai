@@ -1,8 +1,11 @@
 import { projectPromptSchema } from "@/constants/schemas";
+import { generateRandomEta } from "@/lib/utils";
 import { ProjectProps } from "@/types/project";
-import { generateRandomEta, sleep } from "@/utils/project";
 import firestore from "@react-native-firebase/firestore";
 
+// This function creates a new project in the database.
+// It validates the prompt and generates a random ETA for the project.
+// The project is then added to the database and the project ID is returned.
 export async function createProject(
   prompt: ProjectProps["prompt"],
   style: ProjectProps["style"]
@@ -41,6 +44,7 @@ export async function getProject(id: ProjectProps["id"]) {
   return doc.data() as ProjectProps;
 }
 
+// This function updates the project's ETA to 0 and the updatedAt field to the current timestamp. Simulating the project being completed.
 export async function completeProject(id: ProjectProps["id"]) {
   const docRef = firestore().collection("projects").doc(id);
   await docRef.update({

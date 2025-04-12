@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
   FadeIn,
   FadeOut,
-  SequencedTransition,
+  LinearTransition,
 } from "react-native-reanimated";
 import Cancel from "@/assets/icons/Cancel";
 import { Button } from "@/components/ui/button";
@@ -31,7 +31,7 @@ const OutputModal = () => {
           className="flex-1 gap-6"
           entering={FadeIn}
           exiting={FadeOut}
-          layout={SequencedTransition}
+          layout={LinearTransition}
         >
           <Header />
           <LogoPreview />
@@ -45,30 +45,10 @@ const OutputModal = () => {
 export default OutputModal;
 
 const Header = () => {
-  const resetProject = useNewProjectStore((state) => state.resetProject);
-
-  const handleClose = () => {
-    Alert.alert(
-      "Close Design",
-      "Are you sure you want to close? You will lose all of your progress.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Close",
-          style: "destructive",
-          onPress: () => {
-            resetProject();
-            router.back();
-          },
-        },
-      ]
-    );
-  };
-
   return (
     <View className="flex-row justify-between items-center">
       <Text className="text-2xl font-extrabold">Your Design</Text>
-      <Button variant="link" size="icon" onPress={handleClose}>
+      <Button variant="link" size="icon" onPress={() => router.back()}>
         <Cancel />
       </Button>
     </View>
@@ -99,11 +79,15 @@ const PromptPreview = () => {
       <CardContent className="p-3 pt-0">
         <Text>{projectQuery.data?.prompt}</Text>
       </CardContent>
-      <CardFooter className="p-3 pt-0">
-        <View className="py-1 px-2 bg-foreground/10 rounded-full">
-          <Text className="capitalize text-xs">{projectQuery.data?.style}</Text>
-        </View>
-      </CardFooter>
+      {projectQuery.data?.style && (
+        <CardFooter className="p-3 pt-0">
+          <View className="py-1 px-2 bg-foreground/10 rounded-full">
+            <Text className="capitalize text-xs">
+              {projectQuery.data?.style}
+            </Text>
+          </View>
+        </CardFooter>
+      )}
     </Card>
   );
 };

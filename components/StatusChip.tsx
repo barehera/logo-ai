@@ -12,6 +12,7 @@ import useIsProcessing from "@/hooks/useIsProcessing";
 import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { router } from "expo-router";
 
+// This component is used to display the status of a project.
 const StatusChip = () => {
   const id = useNewProjectStore((state) => state.id);
 
@@ -62,8 +63,6 @@ const ETAChip = ({ eta }: { eta?: number }) => {
 };
 
 const DesignReadyChip = () => {
-  const id = useNewProjectStore((state) => state.id);
-
   const handleOpenDesign = () => {
     router.push(`/modals/outputModal`);
   };
@@ -117,6 +116,7 @@ const ErrorChip = ({ refetch }: { refetch: () => void }) => {
   );
 };
 
+// This hook is used to mock the project processing complete by setting the eta to 0 after the ETA has reached 0.
 const useMockProjectProcessingComplete = (eta?: number) => {
   const id = useNewProjectStore((state) => state.id);
   const completeProjectMutation = useCompleteProject();

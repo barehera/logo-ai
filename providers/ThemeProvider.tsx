@@ -25,7 +25,7 @@ const DARK_THEME: Theme = {
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const hasMounted = React.useRef(false);
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
+  const { isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   useLayoutEffect(() => {
