@@ -5,9 +5,9 @@ import {
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native";
-import { NAV_THEME } from "@/lib/constants";
 import { useColorScheme } from "@/lib/useColorScheme";
 import { StatusBar } from "expo-status-bar";
+import { NAV_THEME } from "@/theme/colors";
 
 export {
   // Catch any errors thrown by the Layout component.
