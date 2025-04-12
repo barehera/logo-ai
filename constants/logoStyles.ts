@@ -1,7 +1,7 @@
 export const logoStyles = [
   {
     label: "No Style",
-    value: "no-style",
+    value: null,
     image: require("@/assets/images/logo-styles/no-style.png"),
   },
   {

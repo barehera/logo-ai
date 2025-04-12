@@ -89,10 +89,13 @@ const Button = React.forwardRef<
 
     return (
       <TextClassContext.Provider
-        value={buttonTextVariants({
-          variant,
-          size,
-        })}
+        value={cn(
+          buttonTextVariants({
+            variant,
+            size,
+          }),
+          isDisabled && "opacity-50"
+        )}
       >
         <Pressable
           className={cn(

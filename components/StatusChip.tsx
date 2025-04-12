@@ -1,26 +1,32 @@
 import { View, ActivityIndicator, Image, Pressable } from "react-native";
-import React from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { useColorScheme } from "@/lib/useColorScheme";
 import Gradient from "./Gradient";
 import AlertCircle from "@/assets/icons/AlertCircle";
 import { Text } from "./ui/text";
+import { useNewProjectStore } from "@/store/newProjectStore";
+import useGetProject from "@/api/queries/useGetProject";
+import { useEffect } from "react";
+import useCompleteProject from "@/api/mutations/useCompleteProject";
+import useIsProcessing from "@/hooks/useIsProcessing";
+import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 
-interface StatusChipProps {
-  status?: "designReady" | "eta" | "error";
-}
+const StatusChip = () => {
+  const id = useNewProjectStore((state) => state.id);
 
-const StatusChip = ({ status }: StatusChipProps) => {
-  if (status === "designReady") {
+  const projectQuery = useGetProject(id);
+  const isProcessing = useIsProcessing(id);
+
+  if (projectQuery.isError) {
+    return <ErrorChip refetch={projectQuery.refetch} />;
+  }
+
+  if (isProcessing) {
+    return <ETAChip eta={projectQuery.data?.eta} />;
+  }
+
+  if (!!id && !isProcessing && !projectQuery.isLoading) {
     return <DesignReadyChip />;
-  }
-
-  if (status === "eta") {
-    return <ETAChip />;
-  }
-
-  if (status === "error") {
-    return <ErrorChip />;
   }
 
   return null;
@@ -28,66 +34,96 @@ const StatusChip = ({ status }: StatusChipProps) => {
 
 export default StatusChip;
 
-const ETAChip = () => {
+const ETAChip = ({ eta }: { eta?: number }) => {
   const { colors } = useColorScheme();
+  useMockProjectProcessingComplete(eta);
 
   return (
-    <Card className="flex-row h-[70px]">
-      <CardHeader className="bg-accent p-0 w-[70px] items-center justify-center">
-        <ActivityIndicator color={colors.foreground} />
-      </CardHeader>
-      <CardContent className="flex-1 justify-center p-0 px-3">
-        <View>
-          <Text className="font-extrabold">Creating Your Design...</Text>
-          <Text className="text-muted-foreground text-xs font-medium">
-            Ready in 2 minutes
-          </Text>
-        </View>
-      </CardContent>
-    </Card>
+    <Animated.View entering={FadeInUp} exiting={FadeOutUp}>
+      <Card className="flex-row h-[70px]">
+        <CardHeader className="bg-accent p-0 w-[70px] items-center justify-center">
+          <ActivityIndicator color={colors.foreground} />
+        </CardHeader>
+        <CardContent className="flex-1 justify-center p-0 px-3">
+          <View>
+            <Text className="font-extrabold">Creating Your Design...</Text>
+            {eta && (
+              <Text className="text-muted-foreground text-xs font-medium">
+                Ready in {eta} seconds
+              </Text>
+            )}
+          </View>
+        </CardContent>
+      </Card>
+    </Animated.View>
   );
 };
 
 const DesignReadyChip = () => {
+  const id = useNewProjectStore((state) => state.id);
+
+  const handleOpenDesign = () => {
+    console.log("open design", id);
+  };
+
   return (
-    <Pressable className="pressable">
-      <Card className="flex-row h-[70px]">
-        <CardHeader className="p-0 w-[70px]">
-          <Image
-            source={require("@/assets/images/dummy-logo.jpg")}
-            className="w-full h-full"
-          />
-        </CardHeader>
-        <CardContent className="flex-1 justify-center p-0 px-3">
-          <Gradient />
-          <View>
-            <Text className="font-extrabold">Your Design is Ready!</Text>
-            <Text className="text-foreground/70 text-xs font-medium">
-              Tap to see it.
-            </Text>
-          </View>
-        </CardContent>
-      </Card>
-    </Pressable>
+    <Animated.View entering={FadeInUp} exiting={FadeOutUp}>
+      <Pressable className="pressable" onPress={handleOpenDesign}>
+        <Card className="flex-row h-[70px]">
+          <CardHeader className="p-0 w-[70px]">
+            <Image
+              source={require("@/assets/images/dummy-logo.jpg")}
+              className="w-full h-full"
+            />
+          </CardHeader>
+          <CardContent className="flex-1 justify-center p-0 px-3">
+            <Gradient />
+            <View>
+              <Text className="font-extrabold">Your Design is Ready!</Text>
+              <Text className="text-foreground/70 text-xs font-medium">
+                Tap to see it.
+              </Text>
+            </View>
+          </CardContent>
+        </Card>
+      </Pressable>
+    </Animated.View>
   );
 };
 
-const ErrorChip = () => {
+const ErrorChip = ({ refetch }: { refetch: () => void }) => {
   return (
-    <Pressable className="pressable">
-      <Card className="flex-row h-[70px]">
-        <CardHeader className="bg-destructive/70 p-0 w-[70px] items-center justify-center">
-          <AlertCircle />
-        </CardHeader>
-        <CardContent className="bg-destructive flex-1 justify-center p-0 px-3">
-          <View>
-            <Text className="font-extrabold">Oops, something went wrong!</Text>
-            <Text className="text-foreground/70 text-xs font-medium">
-              Click to try again.
-            </Text>
-          </View>
-        </CardContent>
-      </Card>
-    </Pressable>
+    <Animated.View entering={FadeInUp} exiting={FadeOutUp}>
+      <Pressable className="pressable" onPress={refetch}>
+        <Card className="flex-row h-[70px]">
+          <CardHeader className="bg-destructive/70 p-0 w-[70px] items-center justify-center">
+            <AlertCircle />
+          </CardHeader>
+          <CardContent className="bg-destructive flex-1 justify-center p-0 px-3">
+            <View>
+              <Text className="font-extrabold">
+                Oops, something went wrong!
+              </Text>
+              <Text className="text-foreground/70 text-xs font-medium">
+                Click to try again.
+              </Text>
+            </View>
+          </CardContent>
+        </Card>
+      </Pressable>
+    </Animated.View>
   );
+};
+
+const useMockProjectProcessingComplete = (eta?: number) => {
+  const id = useNewProjectStore((state) => state.id);
+  const completeProjectMutation = useCompleteProject();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      completeProjectMutation.mutate(id);
+    }, eta * 1000);
+
+    return () => clearTimeout(timer);
+  }, [eta]);
 };
