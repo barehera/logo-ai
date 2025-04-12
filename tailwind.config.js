@@ -45,6 +45,9 @@ module.exports = {
       borderWidth: {
         hairline: hairlineWidth(),
       },
+      fontFamily: {
+        manrope: ["Manrope"],
+      },
     },
   },
   plugins: [],

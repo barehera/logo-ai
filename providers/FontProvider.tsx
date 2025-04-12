@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 export const FontProvider = ({ children }: { children: React.ReactNode }) => {
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Manrope: require("../assets/fonts/Manrope-Regular.ttf"),
   });
 
   useEffect(() => {
